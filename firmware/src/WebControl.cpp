@@ -1,6 +1,6 @@
 #include <Arduino.h>
 #include <FS.h>
-#include "SPIFFS.h"
+// #include "SPIFFS.h"
 #include "Vision.h"
 #include "WebControl.h"
 #include <ESPAsyncWebServer.h>
@@ -9,6 +9,9 @@
 #include "Leds.h"
 #include "FrameBuffer.h"
 #include "Point2D.h"
+
+#include "LittleFS.h"
+#define SPIFFS LittleFS
 
 AsyncWebServer server(80);
 
@@ -19,7 +22,13 @@ WebControl::WebControl(Vision *vision, Leds *leds, FrameBuffer *frameBuffer)
     this->leds = leds;
     this->frameBuffer = frameBuffer;
 
-    SPIFFS.begin();
+    // SPIFFS.begin();
+    if(!SPIFFS.begin(true)){
+        Serial.println("SPIFFS Mount Failed");
+        return;
+    }
+    Serial.printf("Total SPIFFS: %u bytes\n", SPIFFS.totalBytes());
+    Serial.printf("Used SPIFFS : %u bytes\n", SPIFFS.usedBytes());
 
     DefaultHeaders::Instance().addHeader("Access-Control-Allow-Origin", "*");
     DefaultHeaders::Instance().addHeader("Access-Control-Allow-Methods", "GET, PUT, POST");
@@ -165,7 +174,7 @@ WebControl::WebControl(Vision *vision, Leds *leds, FrameBuffer *frameBuffer)
         [this](AsyncWebServerRequest *request, uint8_t *data, size_t len, size_t index, size_t total)
         {
             // parse the data as json
-            DynamicJsonDocument doc(1024);
+            JsonDocument doc;
             deserializeJson(doc, data, len);
             this->audioScale = doc["scale"];
             request->send(200, "OK");
