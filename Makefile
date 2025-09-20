@@ -8,15 +8,15 @@ compress_frontend:
 	cd frontend && yarn export
 
 build_firmware:
-	. ./venv/bin/activate && cd firmware && platformio run
+	source venv/Scripts/activate && pip install -r requirements.txt && cd firmware && platformio run
 
 build: build_frontend build_firmware
 
 upload_firmware:
-	. ./venv/bin/activate && cd firmware && platformio run --target upload
+	source venv/Scripts/activate && cd firmware && platformio run --target upload
 
 upload_fs: build_frontend compress_frontend
-	. ./venv/bin/activate && cd firmware && platformio run --target uploadfs
+	source venv/Scripts/activate && cd firmware && platformio run --target uploadfs
 
 
 upload: upload_fs upload_firmware
