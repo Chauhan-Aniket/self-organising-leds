@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from "react";
-import { ILedPosition } from "../api/ledsApi";
+import { useRef, useEffect, useState } from "react";
+import { type ILedPosition } from "../api/ledsApi";
 
 export default function Camera({
   onVideoReady,

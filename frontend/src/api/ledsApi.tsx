@@ -1,6 +1,6 @@
 function blobToArrayBuffer(blob: Blob): Promise<ArrayBuffer> {
   return new Promise((resolve, reject) => {
-    let fr = new FileReader();
+    const fr = new FileReader();
     fr.onload = () => {
       if (fr.result) {
         resolve(fr.result as ArrayBuffer);

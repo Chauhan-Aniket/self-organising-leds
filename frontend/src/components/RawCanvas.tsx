@@ -1,5 +1,5 @@
-import React, { useRef, useEffect } from "react";
-import { ILedPosition } from "../api/ledsApi";
+import { useRef, useEffect } from "react";
+import { type ILedPosition } from "../api/ledsApi";
 
 function RawCanvas({
   imageBytes,
