@@ -13,7 +13,8 @@ export default function LedsUserInterface() {
   const [audioScale, setAudioScale] = useState(20)
   const [video, setVideo] = useState<HTMLVideoElement>();
 
-  const isDev = window.location.hostname === "localhost";
+  const validHosts = ["localhost", "self-organising-leds.vercel.app"];
+  const isDev = validHosts.includes(window.location.hostname);
 
   const [espAddress, setEspAddress] = useState("");
 
